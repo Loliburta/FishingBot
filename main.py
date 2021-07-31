@@ -6,9 +6,11 @@ from pynput.mouse import Button, Controller
 from random import uniform
 
 mouse = Controller()
+
 # Fish Icon
 fish_img = cv2.imread("fishicon.PNG", cv2.IMREAD_UNCHANGED)
 fish_img = cv2.cvtColor(fish_img, cv2.COLOR_RGB2GRAY)
+
 # Reel Green Icon
 reel_img = cv2.imread("reel.PNG", cv2.IMREAD_UNCHANGED)
 reel_img = cv2.cvtColor(reel_img, cv2.COLOR_RGB2GRAY)
@@ -16,8 +18,7 @@ reel_img = cv2.cvtColor(reel_img, cv2.COLOR_RGB2GRAY)
 w =  fish_img.shape[1]
 h =  fish_img.shape[0]
 
-
-def takeScreenshot():
+def take_screenshot():
     screenshot = pyautogui.screenshot(region=(700, 300, 400, 500))
     screenshot = np.array(screenshot)
     screenshot = cv2.cvtColor(screenshot, cv2.COLOR_RGB2GRAY)
@@ -32,7 +33,7 @@ def cast_bait():
 
 def catch_fish():
     while True:
-        screenshot = takeScreenshot()
+        screenshot = take_screenshot()
         result = cv2.matchTemplate(screenshot, fish_img, cv2.TM_CCOEFF_NORMED)
         cv2.imshow("game", screenshot)
         
@@ -46,13 +47,11 @@ def catch_fish():
             time.sleep(0.05)
             break
         cv2.waitKey(1)
-    
-
         
 def reel():
     i = 0
     while True:
-        screenshot = takeScreenshot()
+        screenshot = take_screenshot()
         result = cv2.matchTemplate(screenshot, reel_img, cv2.TM_CCORR_NORMED)
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
         print(max_val)
@@ -77,7 +76,3 @@ while True:
     catch_fish()
     reel()
     
-
-    
-  
-
